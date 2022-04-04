@@ -19,7 +19,7 @@ class SearchStream(Stream):
 
     @property
     def primary_keys(self):
-        return "system_id"
+        return ["system_id"]
 
     # @property
     # def replication_key(self):
@@ -57,14 +57,14 @@ class SearchStream(Stream):
         if self._search_results is not None:
             return self._search_results
 
-        account_id = self.config.get('account_id') or os.environ.get('NS_ACCOUNT')
-        restlet_id = self.config.get('restlet_id') or os.environ.get('NS_RESTLET')
+        account_id = self.config.get('account_id') or os.environ.get('TAP_NETSUITE_ACCOUNT')
+        restlet_id = self.config.get('restlet_id') or os.environ.get('TAP_NETSUITE_RESTLET')
         url = f"https://{account_id}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script={restlet_id}&deploy=1"
         oauth = OAuth1Session(
-            client_key=self.config.get('consumer_key') or os.environ.get('NS_CONSUMER_KEY'),
-            client_secret=self.config.get('consumer_secret') or os.environ.get('NS_CONSUMER_SECRET'),
-            resource_owner_key=self.config.get('token_key') or os.environ.get('NS_TOKEN_KEY'),
-            resource_owner_secret=self.config.get('token_secret') or os.environ.get('NS_TOKEN_SECRET'),
+            client_key=self.config.get('consumer_key') or os.environ.get('TAP_NETSUITE_CONSUMER_KEY'),
+            client_secret=self.config.get('consumer_secret') or os.environ.get('TAP_NETSUITE_CONSUMER_SECRET'),
+            resource_owner_key=self.config.get('token_key') or os.environ.get('TAP_NETSUITE_TOKEN_KEY'),
+            resource_owner_secret=self.config.get('token_secret') or os.environ.get('TAP_NETSUITE_TOKEN_SECRET'),
             realm=account_id,
             signature_method="HMAC-SHA256",
         )
