@@ -1,7 +1,6 @@
 import os
 import json
 from requests_oauthlib import OAuth1Session
-from datetime import date
 from singer_sdk import typing as th
 from singer_sdk import Stream
 
@@ -57,7 +56,7 @@ class SearchStream(Stream):
         if self._search_results is not None:
             return self._search_results
 
-        account_id = self.config.get('account_id') or os.environ.get('TAP_NETSUITE_ACCOUNT')
+        account_id = str(self.config.get('account_id') or os.environ.get('TAP_NETSUITE_ACCOUNT'))
         restlet_id = self.config.get('restlet_id') or os.environ.get('TAP_NETSUITE_RESTLET')
         url = f"https://{account_id}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script={restlet_id}&deploy=1"
         oauth = OAuth1Session(
