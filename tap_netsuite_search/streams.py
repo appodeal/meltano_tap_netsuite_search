@@ -1,5 +1,6 @@
 import os
 import json
+import time
 from requests_oauthlib import OAuth1Session
 from singer_sdk import typing as th
 from singer_sdk import Stream
@@ -49,7 +50,7 @@ class SearchStream(Stream):
 
         for row in data:
             record = row["values"]
-            record["system_id"] = row["id"]
+            record["system_id"] = time.time_ns()
             yield record
 
     def _load_saved_search(self):
